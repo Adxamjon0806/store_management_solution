@@ -1,6 +1,5 @@
 "use server";
 
-import { string } from "zod";
 import { createAdminClient, createSessionClient } from "../appwrite";
 import { appwriteConfig } from "../appwrite/config";
 import { ID, Query } from "node-appwrite";
@@ -94,6 +93,7 @@ export const verifySecret = async ({
 export const getCurrentUser = async () => {
   try {
     const { databases, account } = await createSessionClient();
+
     if (!databases || !account) {
       return null;
     }
@@ -116,9 +116,7 @@ export const getCurrentUser = async () => {
 
 export const signOutUser = async () => {
   const { account } = await createSessionClient();
-  if (!account) {
-    redirect("/sign-in");
-  }
+  if (!account) return null;
   try {
     await account.deleteSession("current");
     (await cookies()).delete("appwrite-session");

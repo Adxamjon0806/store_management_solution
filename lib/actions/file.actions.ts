@@ -101,7 +101,7 @@ export const getFiles = async ({
   try {
     const currentUser = await getCurrentUser();
 
-    if (!currentUser) throw new Error("User not found");
+    if (!currentUser) return null;
 
     const queries = createQueries(currentUser, types, searchText, sort, limit);
 
@@ -193,7 +193,7 @@ export async function getTotalSpaceUsed() {
   try {
     const { databases } = await createSessionClient();
     if (!databases) {
-      throw new Error("No session");
+      return null;
     }
     const currentUser = await getCurrentUser();
     if (!currentUser) throw new Error("User is not authenticated.");

@@ -9,6 +9,7 @@ import { Thumbnail } from "@/components/Thumbnail";
 import { Separator } from "@/components/ui/separator";
 import { getFiles, getTotalSpaceUsed } from "@/lib/actions/file.actions";
 import { convertFileSize, getUsageSummary } from "@/lib/utils";
+import { redirect } from "next/navigation";
 
 const Dashboard = async () => {
   // Parallel requests
@@ -16,6 +17,10 @@ const Dashboard = async () => {
     getFiles({ types: [], limit: 10 }),
     getTotalSpaceUsed(),
   ]);
+
+  if (!files || !totalSpace) {
+    return redirect("/sign-in");
+  }
 
   // Get usage summary
   const usageSummary = getUsageSummary(totalSpace);
