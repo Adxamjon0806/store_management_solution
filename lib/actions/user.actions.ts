@@ -106,8 +106,8 @@ export const getCurrentUser = async () => {
     if (user.total <= 0) return null;
 
     return parseStringify(user.documents[0]);
-  } catch (error) {
-    console.log("this was error message");
+  } catch {
+    return null;
   }
 };
 
